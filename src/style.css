@@ -1,0 +1,8 @@
+html, body{
+    margin:0;
+    background-color: rgba(180, 185, 179, 0.274);
+}
+img{
+    width: 100px;
+    height: 100px;
+}
