@@ -1,12 +1,15 @@
 const htmlWebPackPlugin=require('html-webpack-plugin');
 const { loader } = require('mini-css-extract-plugin');
 const MiniCssExtract= require('mini-css-extract-plugin');
-const CopyPlugin= require("copy-webpack-plugin")
+const CopyPlugin= require("copy-webpack-plugin");
+const CssMinimizer=require("css-minimizer-webpack-plugin");
+const Terser=require("terser-webpack-plugin");
 
 module.exports={
-    mode:"development",
+    mode:"production",
     output:{
-        clean:true
+        clean:true,
+        filename: 'main.[contenthash].js',
     },
     module:{
         rules:[
@@ -30,9 +33,25 @@ module.exports={
                 test:/\.(png|jpg?g|gif)$/,
                 loader:'file-loader'
             },
+            {
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: {
+                  loader: "babel-loader",
+                  options: {
+                    presets: ['@babel/preset-env']
+                  }
+                }
+            },
         ]
     },
-    optimization:{},
+    optimization:{
+        minimize:true,
+        minimizer:[
+            new CssMinimizer(),
+            new Terser(),
+        ]
+    },
     plugins:[
         new htmlWebPackPlugin({
             title:"mi webpack app",//editar el archivo del build
@@ -40,7 +59,7 @@ module.exports={
             template:"./src/index.html"
         }),
         new MiniCssExtract({
-            filename:'[name].css',
+            filename:'[name].[fullhash].css',
             ignoreOrder:false
         }),
         new CopyPlugin({
