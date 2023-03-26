@@ -1,5 +1,5 @@
 # Webpack
-Proyecto inicial para crear aplicaciones utilizando webpack
+Proyecto TODO utilizando webpack
 
 ## Notas 
 Recordar reconstruir modulos de node
